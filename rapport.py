@@ -764,7 +764,7 @@ if __name__ == "__main__":
     
     # Network Hyperparameters 
     # YOUR CODE HERE 
-    minibatch_size = 24
+    minibatch_size = 100
     nepoch = 40
     learning_rate = 0.01
     momentum = 0.9
@@ -793,9 +793,9 @@ Pour obtenir la meilleur précision possible, j'ai réalisé plusieurs test de l
 
 J'ai tout d'abord essayait de faire varier ma fonction forward en retirant ajoutant des convolution ou des fonction linear, et essayait de trouver la meilleur struture pour les convolution en entrée et sortie. Finalement celle qui m'a amené le plus de résultat est celle avec laquelle j'ai gardé le même nombre de convolution et de linear mais à laquelle j'ai supprimé la fonction softmax qui réduisait ma précision.
 
-J'ai obtenu les meilleurs précision lorsque mes variables  minibatch_size et learning_rate vallait respectivement 24 et 0.01.
+J'ai obtenu les meilleurs précision lorsque mes variables  minibatch_size et learning_rate vallait respectivement 100 et 0.01.
 
-J'ai mis comme nombre d'époque epoch = 40, pour obtenir la précision de 90% désirait. Cet précision apparait à peu près vers la période 35 à 40.
+J'ai mis comme nombre d'époque epoch = 40, pour obtenir la précision de 90% désirait.
 
 J'ai aussi mis un momentum = à 0,9 pour une meilleur précision.
 
