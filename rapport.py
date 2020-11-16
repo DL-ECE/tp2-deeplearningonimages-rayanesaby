@@ -677,35 +677,46 @@ class CNNModel(nn.Module):
     def __init__(self, classes=10):
         super().__init__()
         # YOUR CODE HERE 
-        self.conv1 = nn.Conv2d(1,20,3, padding = 1)
-        self.conv2 = nn.Conv2d(20,4,3, padding = 1)
-        self.conv3 = nn.Conv2d(4,10,3, padding = 1)
-        self.conv4 = nn.Conv2d(10,32,3, padding = 1)
+        self.conv1 = nn.Conv2d(1,256,3, padding = 1)
+        self.conv2 = nn.Conv2d(256,128,3, padding = 1)
+        
+        self.conv3 = nn.Conv2d(128,64,3, padding = 1)
+        self.conv4 = nn.Conv2d(64,32,3, padding = 1)
 
         self.maxpool =  nn.MaxPool2d(2,2)
         self.fc1 = nn.Linear(32 * 7 * 7, 64)
-        self.fc2 = nn.Linear(64, 30)
-        self.fc3 = nn.Linear(30, 10)
-        
+        self.fc2 = nn.Linear(64, 40)
+        self.fc3 = nn.Linear(40, 10)
+        self.activation = torch.nn.ReLU()
     
     def forward(self, input):
         # YOUR CODE HERE
         x = self.conv1(input)
+        #print(x.shape)
+        #x = self.activation(x)
         x = self.conv2(x)
-
+        #print(x.shape)
+        #x = self.activation(x)
+        
         x = self.maxpool(x)
 
         x = self.conv3(x)
+        #print(x.shape)
+        #x = self.activation(x)
         x = self.conv4(x)
-        
+        #print(x.shape)
+        #x = self.activation(x)
         x = self.maxpool(x)
 
         x = x.reshape(x.size(0),-1)
         
         x = self.fc1(x)
-        #print(x.shape)
+        x = self.activation(x)
+        
         x = self.fc2(x)
-        y = self.fc3(x) 
+        x = self.activation(x)
+        x = self.fc3(x) 
+        y = self.activation(x)
         #y = F.softmax(x)
         return y
 
@@ -753,8 +764,8 @@ if __name__ == "__main__":
     
     # Network Hyperparameters 
     # YOUR CODE HERE 
-    minibatch_size = 10
-    nepoch = 10
+    minibatch_size = 24
+    nepoch = 40
     learning_rate = 0.01
     momentum = 0.9
 
@@ -777,6 +788,16 @@ if __name__ == "__main__":
 
 """## Open Analysis
 Same as TP 1 please write a short description of your experiment
+
+Pour obtenir la meilleur précision possible, j'ai réalisé plusieurs test de la fonction CNNModel en modifiant à chaque fois les différentes variables minibatch_size,nepoch, learning_rate et momentum.
+
+J'ai tout d'abord essayait de faire varier ma fonction forward en retirant ajoutant des convolution ou des fonction linear, et essayait de trouver la meilleur struture pour les convolution en entrée et sortie. Finalement celle qui m'a amené le plus de résultat est celle avec laquelle j'ai gardé le même nombre de convolution et de linear mais à laquelle j'ai supprimé la fonction softmax qui réduisait ma précision.
+
+J'ai obtenu les meilleurs précision lorsque mes variables  minibatch_size et learning_rate vallait respectivement 24 et 0.01.
+
+J'ai mis comme nombre d'époque epoch = 40, pour obtenir la précision de 90% désirait. Cet précision apparait à peu près vers la période 35 à 40.
+
+J'ai aussi mis un momentum = à 0,9 pour une meilleur précision.
 
 # BONUS 
 
